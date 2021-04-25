@@ -101,8 +101,8 @@ class Morph:
 
 
     def advb(self):#  наречие, нет категории  
-        self.parsing += '\nчасть речи: наречие'
-        self.parsing += '\nпостоянные признаки: '
+        self.parsing += '\n1) часть речи: наречие'
+        self.parsing += '\n3) постоянные признаки: '
         self.parsing += '\nнеизменяемое'
         return self.parsing
 
