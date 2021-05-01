@@ -27,7 +27,7 @@ def gender(word):#определяет род у прилагательных/с
     return ''
 
 
-def isqual(word):#че то у прилагательного
+def isqual(word):#че то у прилагательного/
     if {'Poss'} in word.tag:
         return '\n     притяжательное'
     elif {'Qual'} in word.tag:
