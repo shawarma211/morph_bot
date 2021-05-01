@@ -88,7 +88,7 @@ class Morph:
 
 
 
-    def infn(self): #   инфнитив, работает, нет возвратности 
+    def infn(self): #   инфнитив, работает
         self.parsing = '1) часть речи:\n     глагол'
         self.parsing += f'\n2) начальная форма:\n     {self.first_parsings.normal_form}'
         self.parsing += '\n3) постоянные признаки: '
