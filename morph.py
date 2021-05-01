@@ -1,5 +1,8 @@
 import pymorphy2
+import functions
 morph = pymorphy2.MorphAnalyzer()
+
+
 class Morph:
     def __init__(self, word):
         self.word = word.lower()
@@ -14,6 +17,7 @@ class Morph:
 
 
 
+
     def parsingq(self): #выбираем какую часть речи разобрать
         if self.first_parsings.tag.POS=='NOUN':
             return self.noun()
@@ -25,7 +29,7 @@ class Morph:
             return self.verb()
         elif self.first_parsings.tag.POS=='INFN':
             return self.infn()
-        elif self.first_parsings.tag.POS=='ADJF' or self.first_parsings.tag.POS=='ADJS':
+        elif self.first_parsings.tag.POS=='ADJF' or self.first_parsings.tag.POS=='ADJS' or {'COMP'} in self.first_parsings.tag:
             return self.adjf()
         elif self.first_parsings.tag.POS=='PRTF' or self.first_parsings.tag.POS == 'PRTS':
             return self.prtf()
@@ -33,112 +37,101 @@ class Morph:
             return 'такого не знаю'
 
 
+
     def noun(self): #существительное, работет
-        self.parsing = '\n1) часть речи: имя существительное'
-        self.parsing = f'2) начальная форма: {self.first_parsings.normal_form}'
+        self.parsing = '1) часть речи:\n     имя существительное'
+        self.parsing += f'\n2) начальная форма:\n     {self.first_parsings.normal_form}'
         self.parsing += '\n2) постоянные признаки: '
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.animacy]}'
-        if {'masc'} in self.first_parsings.tag:
-            self.parsing += '\n    мужской род'
-        elif {'femn'} in  self.first_parsings.tag:
-            self.parsing += '\n    женский род'
-        elif {'neut'} in self.first_parsings.tag:
-            self.parsing += '\n    средний род'
-        if {'Name'} in self.first_parsings.tag or {'Surn'} in self.first_parsings.tag or {'Patr'} in self.first_parsings.tag or {'Geox'} in self.first_parsings.tag or {'Geox'} in self.first_parsings.tag:
-            self.parsing += '\n    собственное'
-        else:
-            self.parsing += '\n    нарицательное'
-        if (self.first_parsings.tag.gender == 'masc' or self.first_parsings.tag.gender == 'femn') and (self.first_parsings.normal_form[-1]=='а' or 'neut'):
-            self.parsing += '\n    1 склонение'
-        elif self.first_parsings.normal_form[-1] == 'ь':
-            self.parsing += '\n    3 склонение'
-        else:
-            self.parsing += '\n    2 склонение'
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.animacy]}'
+        self.parsing += functions.gender(self.first_parsings)
+        self.parsing += functions.iscommon(self.first_parsings)
+        self.parsing += functions.declination(self.first_parsings.normal_form)
         self.parsing += '\n3) непостоянные признаки: '
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.case]} падеж'
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.number]}'
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.case]} падеж'
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.number]}'
         return self.parsing
-    
-
-    def adjf(self):
-        #TOODO
-        pass
 
 
-    def verb(self):# глагол, работает, нет возвратности 
-        self.parsing = '\n1) часть речи: глагол'
-        self.parsing = f'\n2) начальная форма: {self.first_parsings.normal_form}'
+
+    def adjf(self):#прилагательное, работает
+        self.parsing = '1) часть речи:\n     прилагательное'
+        self.parsing += f'\n2) начальная форма:\n     {self.first_parsings.normal_form}'
+        self.parsing += '\n3) постоянные признаки:'
+        self.parsing += functions.isqual(self.first_parsings)
+        self.parsing += '\n4) непостоянные признаки:'
+        self.parsing += functions.issupr(self.first_parsings)
+        self.parsing += functions.iscomp(self.first_parsings)
+        if functions.iscomp == '\n     полная форма':
+            self.parsing += f'\n     {self.signs[self.first_parsings.tag.case]} падеж'
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.number]}'
+        self.parsing += functions.gender(self.first_parsings)
+        return self.parsing
+
+
+
+    def verb(self):# глагол, работает
+        self.parsing = '1) часть речи:\n     глагол'
+        self.parsing += f'\n2) начальная форма:\n     {self.first_parsings.normal_form}'
         self.parsing += '\n3)постоянные признаки: '
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.aspect]}'
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.transitivity]}'
-        self.parsing += '\n3) непостоянные признаки: '
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.mood]}'
-        if {'pres'} in self.first_parsings.tag:
-            self.parsing += '\n    настоящее'
-        elif {'futr'} in self.first_parsings.tag:
-            self.parsing += '\n    будущее'
-        elif {'past'} in self.first_parsings.tag:
-            self.parsing += '\n    прошедшее'
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.number]}'
-        if {'1per'} in self.first_parsings.tag:
-            self.parsing += '\n    1 лицо'
-        elif {'2per'} in self.first_parsings.tag:
-            self.parsing += '\n    2 лицо'
-        elif {'3per'} in self.first_parsings.tag:
-            self.parsing += '\n    3 лицо'
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.aspect]}'
+        self.parsing += functions.isreflection(self.first_parsings.normal_form)
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.transitivity]}'
+        self.parsing += functions.conjugation(self.first_parsings.normal_form)
+        self.parsing += '\n4) непостоянные признаки: '
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.mood]}'
+        self.parsing += functions.time(self.first_parsings)
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.number]}'
+        self.parsing += functions.person(self.first_parsings)
         if {'past'} in self.first_parsings.tag:
-            self.parsing += f'\n    {self.signs[self.first_parsings.tag.gender]}'
+            self.parsing += f'\n     {self.signs[self.first_parsings.tag.gender]}'
         return self.parsing
-    
+
+
 
     def infn(self): #   инфнитив, работает, нет возвратности 
-        self.parsing = '\n1) часть речи: глагол'
-        self.parsing = f'2) начальная форма: {self.first_parsings.normal_form}'
+        self.parsing = '1) часть речи:\n     глагол'
+        self.parsing += f'\n2) начальная форма:\n     {self.first_parsings.normal_form}'
         self.parsing += '\n3) постоянные признаки: '
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.aspect]}'
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.transitivity]}'
-        self.parsing += '\n3) непостоянные признаки: \n    инфинитив(неизменяемая форма)'
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.aspect]}'
+        self.parsing += functions.conjugation(self.first_parsings.normal_form)
+        self.parsing += functions.isreflection(self.first_parsings.normal_form)
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.transitivity]}'
+        self.parsing += '\n3) непостоянные признаки:\n     инфинитив(неизменяемая форма)'
         return self.parsing
 
 
-    def grnd(self): #   деепричастие, работает, нет возвратности 
-        self.parsing ='\n1) часть речи: деепричастие'
-        self.parsing = f'2) начальная форма: {self.first_parsings.normal_form}'
-        self.parsing += '\nпостоянные признаки: '
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.aspect]}'
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.transitivity]}'
-        self.parsing+='\nнеизменяемая форма'
-        return self.parsing
 
-
-    def advb(self):#   наречие, работает, нет категории  
-        self.parsing += '\n1) часть речи: наречие'
-        self.parsing += '\n2) постоянные признаки: '
-        self.parsing += '\n3) непостоянные признаки: '
-        self.parsing += '\n    nнеизменяемое'
-        return self.parsing
-
-
-    def prtf(self):#  причастие, работает, нет возвратности 
-        self.parsing = '\n1) часть речи: причастие'
+    def grnd(self): #   деепричастие, работает
+        self.parsing ='1) часть речи:\n     деепричастие'
+        self.parsing += f'\n2) начальная форма:\n     {self.first_parsings.normal_form}'
         self.parsing += '\n3) постоянные признаки: '
-        if {'actv'} in self.first_parsings.tag:
-            self.parsing += '\n    действительное'
-        else:
-            self.parsing += '\n    страдательное'
-        self.parsing += f'\n    {self.signs[self.first_parsings.tag.number]}'
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.aspect]}'
+        self.parsing += functions.isreflection(self.first_parsings.normal_form)
+        self.parsing += f'\n     {self.signs[self.first_parsings.tag.transitivity]}'
+        self.parsing+='\n     неизменяемое'
+        return self.parsing
+
+
+
+    def advb(self):#   наречие, работает
+        self.parsing = '\n1) часть речи:\n     наречие'
+        self.parsing += f'\n2) начальная форма:\n     {self.first_parsings.normal_form}'
+        self.parsing += '\n3) постоянные признаки:\n     неизменяемое'
+        return self.parsing
+
+
+
+    def prtf(self):#  причастие, работает
+        self.parsing = '1) часть речи:\n   причастие'
+        self.parsing += f'\n2) начальная форма:\n    {self.first_parsings.normal_form}'
+        self.parsing += '\n3) постоянные признаки: '
+        self.parsing += functions.isactv(self.first_parsings)
         self.parsing += f'\n    {self.signs[self.first_parsings.tag.aspect]}'
+        self.parsing += functions.time(self.first_parsings)
+        self.parsing += functions.isreflection(self.first_parsings.normal_form)
         self.parsing += '\n4) непостоянные признаки: '
-        if self.first_parsings.tag.POS=='PRTS':
-            self.parsing += '\n    краткая форма'
-        else:
-            self.parsing += '\n    полная форма'
-            self.parsing += f'\n    {self.signs[self.first_parsings.tag.case]} падеж'
+        self.parsing += functions.isperf(self.first_parsings)
+        self.parsing += f'\n    {self.signs[self.first_parsings.tag.case]} падеж'
         self.parsing += f'\n    {self.signs[self.first_parsings.tag.number]}'
         self.parsing += f'\n    {self.signs[self.first_parsings.tag.gender]}'
         return self.parsing
-
-        
-
-word = Morph('ножницы')
-print(word.parsingq())
