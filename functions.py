@@ -27,7 +27,7 @@ def gender(word):#определяет род у прилагательных/с
     return ''
 
 
-def isqual(word):#че то у прилагательного/
+def isqual(word):#разряды у прилагательного/
     if {'Poss'} in word.tag:
         return '\n- притяжательное'
     elif {'Qual'} in word.tag:
@@ -82,6 +82,7 @@ def time(word):#время для глагола/причастия
 
 
 def person(word):#лицо для глагола
+    
     if {'1per'} in word.tag:
         return '\n- 1 лицо'
     elif {'2per'} in word.tag:
@@ -99,7 +100,7 @@ def conjugation(word):#спряжение для глагола
     return '\n- 1 спряжение'
 
 
-def discharges(word):
+def discharges(word):#разряд местоимений
     personal = ['я', 'мы', 'ты', 'вы', 'он', 'она', 'оно', 'они']
     returnable= ['себя']
     possessive=['мой', 'наш', 'твой', 'ваш', 'свой']
@@ -124,4 +125,4 @@ def discharges(word):
         return '\n- отрицательное'
     elif word in undefined:
         return '\n- неопределенное'
-    return '\n- не могу определить'
+    return ''
