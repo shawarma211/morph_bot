@@ -19,7 +19,7 @@ class Morph:
     def morph(self):
         parsings = []
         for parsing in self.first_parsings:
-            if parsing[3] >= 0.3:
+            if parsing[3] >= 0.5:
                 parsings.append(self.parsingq(parsing))
         return parsings 
 
@@ -40,7 +40,7 @@ class Morph:
         elif parsing.tag.POS=='PRTF' or parsing.tag.POS == 'PRTS':
             return self.prtf(parsing)
         elif parsing.tag.POS =='NPRO':
-            return sef.npro(parsing)
+            return self.npro(parsing)
         elif parsing.tag.POS == 'PREP':
             return 'предлог'
         elif parsing.tag.POS == 'CONJ':
@@ -87,14 +87,14 @@ class Morph:
         self.parsing = '1.часть речи:\nместоимение'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки:'
-        self.parsingq += functions.discharges(parsing)
+        self.parsing += functions.discharges(parsing.normal_form)
         self.parsing += functions.person(parsing)
         self.parsing += '\n\n4.непостоянные признаки:'
         self.parsing += f'\n- {self.signs[parsing.tag.case]} падеж'
         self.parsing += functions.gender(parsing)
         if parsing.tag.number in self.signs:
             self.parsing += f'\n- {self.signs[parsing.tag.number]}'
-
+        return self.parsing
 
 
     def verb(self, parsing):# глагол, работает
@@ -157,7 +157,7 @@ class Morph:
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки:'
         self.parsing += functions.isactv(parsing)
-        self.parsing += f'\n{self.signs[parsing.tag.aspect]}'
+        self.parsing += f'\n- {self.signs[parsing.tag.aspect]}'
         self.parsing += functions.time(parsing)
         self.parsing += functions.isreflection(parsing.normal_form)
         self.parsing += '\n\n4.непостоянные признаки:'
@@ -167,4 +167,3 @@ class Morph:
         self.parsing += f'\n- {self.signs[parsing.tag.number]}'
         self.parsing += f'\n- {self.signs[parsing.tag.gender]}'
         return self.parsing
-
