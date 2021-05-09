@@ -13,9 +13,16 @@ longpoll = VkBotLongPoll(session,groupe_id)
 for event in longpoll.listen():
     if event.type == VkBotEventType.MESSAGE_NEW:
         parsing = Morph(event.message.text)
-        message = parsing.parsingq()
-        vk.messages.send(
-            message=message,
-            peer_id=event.message.from_id,
-            random_id=get_random_id()
-        )
+        messages = parsing.morph()
+        if len(messages) == 0:
+            vk.messages.send(
+                message='разбор не удался',
+                peer_id=event.message.from_id,
+                random_id=get_random_id()
+            )
+        for message in messages: 
+            vk.messages.send(
+                message=message,
+                peer_id=event.message.from_id,
+                random_id=get_random_id()
+            )
