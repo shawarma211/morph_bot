@@ -43,6 +43,8 @@ class Morph:
             return self.prtf(parsing)
         elif parsing.tag.POS =='NPRO':
             return self.npro(parsing)
+        elif parsing.tag.POS == 'NUMR':
+            return 'числительное'
         elif parsing.tag.POS == 'PREP':
             return 'предлог'
         elif parsing.tag.POS == 'CONJ':
