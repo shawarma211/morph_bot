@@ -21,6 +21,8 @@ class Morph:
         for parsing in self.first_parsings:
             if parsing[3] >= 0.5:
                 parsings.append(self.parsingq(parsing))
+        if len(parsings) == 0:
+            parsings.append(self.parsingq(self.first_parsings[0]))
         return parsings 
 
 
@@ -47,7 +49,7 @@ class Morph:
             return 'частица'
         elif parsing.tag.POS == 'INTJ':
             return 'междометие'
-        else: 
+        else:
             return 'такого не знаю'
 
 
