@@ -132,6 +132,8 @@ class Morph:
         self.parsing += '\n\n3.непостоянные признаки:\n- инфинитив(неизменяемая форма)'
         return self.parsing
 
+    def numeral(self, parsing):
+        pass
 
 
     def grnd(self, parsing): #   деепричастие, работает
