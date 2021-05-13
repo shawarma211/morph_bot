@@ -175,6 +175,3 @@ class Morph:
         self.parsing += f'\n- {self.signs[parsing.tag.number]}'
         self.parsing += f'\n- {self.signs[parsing.tag.gender]}'
         return self.parsing
-
-word = Morph('человек')
-print(word.morph())
