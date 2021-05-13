@@ -23,7 +23,7 @@ class Morph:
                 parsings.append(self.parsingq(parsing)) 
         if len(parsings) == 0:
             parsings.append(self.parsingq(self.first_parsings[0]))
-        if parsings[0] == parsings[1]:
+        if len(parsings) > 1 and parsings[0] == parsings[1]:
             parsings.remove(parsings[0]) 
         return parsings 
 
