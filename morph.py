@@ -23,9 +23,8 @@ class Morph:
                 parsings.append(self.parsingq(parsing)) 
         if len(parsings) == 0:
             parsings.append(self.parsingq(self.first_parsings[0]))
-        for parsing in parsings:
-            if parsings[0] == parsing:
-                parsings.remove(parsings[0]) 
+        if parsings[0] == parsings[1]:
+            parsings.remove(parsings[0]) 
         return parsings 
 
 
@@ -176,3 +175,6 @@ class Morph:
         self.parsing += f'\n- {self.signs[parsing.tag.number]}'
         self.parsing += f'\n- {self.signs[parsing.tag.gender]}'
         return self.parsing
+
+word = Morph('человек')
+print(word.morph())
