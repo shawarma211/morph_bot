@@ -4,8 +4,8 @@ from vk_api.utils import get_random_id
 from morph import Morph
 
 
-token = '3a609640df16b975f721eb3553198aa08c775b4a06d1a166ba3807a461b98d98aeced1eb9e61216f2495a'
-groupe_id = '200909624'
+token = 'a2ad70fb300714274a85c46f7094b71e7fbd0d44d4f4d3b6173ce0e9ae9e34011fb8e384bea43756dc3b3'
+groupe_id = '200909409'
 session = vk_api.VkApi(token=token)
 vk = session.get_api()
 longpoll = VkBotLongPoll(session,groupe_id)
@@ -14,12 +14,6 @@ for event in longpoll.listen():
     if event.type == VkBotEventType.MESSAGE_NEW:
         parsing = Morph(event.message.text)
         messages = parsing.morph()
-        if len(messages) == 0:
-            vk.messages.send(
-                message='разбор не удался',
-                peer_id=event.message.from_id,
-                random_id=get_random_id()
-            )
         for message in messages: 
             vk.messages.send(
                 message=message,
