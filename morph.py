@@ -20,9 +20,12 @@ class Morph:
         parsings = []
         for parsing in self.first_parsings:
             if parsing[3] >= 0.5:
-                parsings.append(self.parsingq(parsing))
+                parsings.append(self.parsingq(parsing)) 
         if len(parsings) == 0:
             parsings.append(self.parsingq(self.first_parsings[0]))
+        for parsing in parsings:
+            if parsings[0] == parsing:
+                parsings.remove(parsings[0]) 
         return parsings 
 
 
@@ -60,7 +63,7 @@ class Morph:
         self.parsing = '1.часть речи:\nимя существительное'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки: '
-        self.parsing += f'\n{self.signs[parsing.tag.animacy]}'
+        self.parsing += f'\n- {self.signs[parsing.tag.animacy]}'
         self.parsing += functions.gender(parsing)
         self.parsing += functions.iscommon(parsing)
         self.parsing += functions.declination(parsing.normal_form)
