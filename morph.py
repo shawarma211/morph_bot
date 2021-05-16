@@ -6,7 +6,7 @@ morph = pymorphy2.MorphAnalyzer()
 class Morph:
     def __init__(self, word):
         self.word = word.lower()
-        self.first_parsings = morph.parse(self.word)
+        self.first_parsings = morph.parse(self.word.split())
         self.parsing = None
         self.signs = {'masc': 'мужской род', 'femn': 'женский род', 'neut': 'средний род',\
                  'nomn': 'именительный', 'gent': 'родительный', 'datv': 'дательный', 'accs': 'винительный',\
