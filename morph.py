@@ -5,15 +5,33 @@ morph = pymorphy2.MorphAnalyzer()
 
 class Morph:
     def __init__(self, word):
-        self.word = word.lower()
-        self.first_parsings = morph.parse(self.word.split())
+        self.word = word
+        self.first_parsings = morph.parse(self.word)
         self.parsing = None
-        self.signs = {'masc': 'мужской род', 'femn': 'женский род', 'neut': 'средний род',\
-                 'nomn': 'именительный', 'gent': 'родительный', 'datv': 'дательный', 'accs': 'винительный',\
+        self.signs = {'nomn': 'именительный', 'gent': 'родительный', 'datv': 'дательный', 'accs': 'винительный',\
                  'ablt': 'творительный', 'loct': 'предложный', 'sing':'единственное число', 'plur':'множественное число', 'indc':'изъявительное наклонение',\
-                 'impr':'повелительное наклонение', 'pres':'настоящее время', 'past':'прошедшее время','futr':'будущее время', '1per':'1 лицо','2per':'2 лицо',\
-                 '3per':'3 лицо', 'actv':'действительное', 'pssv':'страдательное', 'perf':'совершенный вид', 'impf':'несовершенный вид', 'anim':'одушевлённое',\
+                 'impr':'повелительное наклонение', 'perf':'совершенный вид', 'impf':'несовершенный вид', 'anim':'одушевлённое',\
                  'inan':'неодушевлённое', 'tran':'переходный', 'intr':'непереходый'}
+
+
+    def template_parsings(self):
+        if self.word == 'имя существительное':
+            return '1.часть речи\nимя существительное, общее грамматическое значение: предмет\n\n2.начальная форма\nименительный падеж, единственное число\n\n3.постоянные признаки:\n- нарицательное или собственное\n- одушевленное или неодушевленное\n- род\n- склонение\n\n4.непостоянные признаки:\n- падеж\n- число\n\n5.Синтаксическая роль'
+        elif self.word == 'имя прилагательное':
+            return '1.часть речи\nимя прилагательное, общее грамматическое значение: признак предмета\n\n2.начальная форма:\nименительный падеж, единственное число, мужской род\n\n3.постоянные признаки:\n- качественное, относительное или притяжательное\n\n4.непостоянные признаки:\n- степень сравнения\n- краткая или полная форма\n- падеж\n- число\n- род\n\n5.синтаксическая роль'
+        elif self.word == 'имя числительное':
+            return '1.часть речи\nимя числительное, общее грамматическое значение: количество или порядок предметов при счёте\n\n2.начальная форма:\nименительный падеж\n\n3.постоянные признаки:\n- простое или составное\n- количественное или порядковое\n- разряд(для количественных)\n\n4.непостоянные признаки:\n- падеж\n- число(если есть)\n- род(если есть)\n\n5.синтаксическая роль'
+        elif self.word == 'местоимение':
+            return '1.часть речи\nместоимение, общее грамматическое значение: указание на предмет, объект, признак или количество, не называя их\n\n2.начальная форма\nименительный падеж, единственное число\n\n3.постоянные признаки:\n- разряд\n- лицо(у личных местоимений)\n\n4.непостоянные признаки:\n- падеж\n- число(если есть)\n- род(если есть)\n\n5.синтаксическая роль'
+        elif self.word == 'глагол':
+            return '1.часть речи\nглагол, общее грамматическое значение: означает действие или состояние предмета\n\n2.начальная форма\nнеопределённая форма\n\n3.постоянные признаки:\n- вид\n- спряжение\n- переходность\n\n4.непостоянные признаки:\n- наклонение\n- число\n- время(если есть)\n- лицо(если есть)\n- род(если есть)\n\n5.синтаксическая роль'
+        elif self.word == 'наречие':
+            return '1.часть речи\nнаречие, общее грамматическое значение: означает признак действия предмета или другого признака\n\n2.начальная форма:\nнеизменяемое\n\n3.постоянные признаки:\n- сравнительная или превосходная степень сравнения (если есть)\n- группа по значению\n\n4.синтаксическая роль'
+        elif self.word == 'причастие':
+            return '1.часть речи\nпричастие, общее грамматическое значение: означает признак предмета по действию\n\n2.начальная форма:\nименительный падеж, единственное число, мужской род\n\n3.постоянные признаки:\n- действительное или страдательное\n- время\n- вид\n\n4.непостоянные признаки:\n- полная или краткая форма(у страдательных)\n- падеж(в полной форме),\n- число\n- род\n\n5.синтаксическая роль'
+        elif self.word == 'деепричастие':
+            return '1.часть речи\nдеепричастие, общее грамматическое значение: означает добавочное действие при основном действии, выраженном глаголом\n\n2.начальная форма:\nнеизменяемое\n\n3.постоянные признаки:\n- вид\n- переходность\n- возвратность\n\n4.синтаксическая роль'
+        return self.morph()
 
 
     def morph(self):
@@ -59,12 +77,12 @@ class Morph:
 
 
     def noun(self, parsing): #существительное, работет
-        self.parsing = '1.часть речи:\nимя существительное'
+        self.parsing = '1.часть речи:\nимя существительное\nобщее значение: предмет'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки: '
+        self.parsing += functions.iscommon(parsing)
         self.parsing += f'\n- {self.signs[parsing.tag.animacy]}'
         self.parsing += functions.gender(parsing)
-        self.parsing += functions.iscommon(parsing)
         self.parsing += functions.declination(parsing.normal_form)
         self.parsing += '\n\n4.непостоянные признаки: '
         self.parsing += f'\n- {self.signs[parsing.tag.case]} падеж'
@@ -74,7 +92,7 @@ class Morph:
 
 
     def adjf(self, parsing):#прилагательное, работает
-        self.parsing = '1.часть речи:\nприлагательное'
+        self.parsing = '1.часть речи:\nимя прилагательное\nобщее грамматическоен значение: признак предмета'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки:'
         self.parsing += functions.isqual(parsing)
@@ -90,11 +108,12 @@ class Morph:
 
 
     def npro(self, parsing):
-        self.parsing = '1.часть речи:\nместоимение'
+        self.parsing = '1.часть речи:\nместоимение\nобщее грамматическое значение: указание на предмет, объект, признак или количество, не называя их'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки:'
         self.parsing += functions.discharges(parsing.normal_form)
-        self.parsing += functions.person(parsing)
+        if functions.discharges(parsing.normal_form) == '\n- личное':
+            self.parsing += functions.person(parsing)
         self.parsing += '\n\n4.непостоянные признаки:'
         self.parsing += f'\n- {self.signs[parsing.tag.case]} падеж'
         self.parsing += functions.gender(parsing)
@@ -103,8 +122,9 @@ class Morph:
         return self.parsing
 
 
+
     def verb(self, parsing):# глагол, работает
-        self.parsing = '1.часть речи:\nглагол'
+        self.parsing = '1.часть речи:\nглагол\nобщее грамматическое значение: означает действие или состояние предмета'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки: '
         self.parsing += f'\n- {self.signs[parsing.tag.aspect]}'
@@ -117,13 +137,13 @@ class Morph:
         self.parsing += f'\n- {self.signs[parsing.tag.number]}'
         self.parsing += functions.person(parsing)
         if {'past'} in parsing.tag:
-            self.parsing += f'\n- {self.signs[parsing.tag.gender]}'
+            self.parsing += functions.gender(parsing)
         return self.parsing
 
 
 
     def infn(self, parsing): #   инфнитив, работает
-        self.parsing = '1.часть речи:\nглагол'
+        self.parsing = '1.часть речи:\nглагол\nобщее грамматическое значение: означает действие или состояние предмета'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки: '
         self.parsing += f'\n- {self.signs[parsing.tag.aspect]}'
@@ -136,12 +156,13 @@ class Morph:
         self.parsing += '\n\n3.непостоянные признаки:\n- инфинитив(неизменяемая форма)'
         return self.parsing
 
+    
     def numeral(self, parsing):
-        pass
+        return 'Числительное'
 
-
+    
     def grnd(self, parsing): #   деепричастие, работает
-        self.parsing ='1.часть речи:\nдеепричастие'
+        self.parsing ='1.часть речи:\nдеепричастие\nобщее грамматическое значение: означает добавочное действие при основном действии, выраженном глаголом'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки: '
         self.parsing += f'\n- {self.signs[parsing.tag.aspect]}'
@@ -153,7 +174,7 @@ class Morph:
 
 
     def advb(self, parsing):#   наречие, работает
-        self.parsing = '\n1.часть речи:\nнаречие'
+        self.parsing = '\n1.часть речи:\nнаречие\nобщее грамматическое значение: означает признак действия предмета или другого признака'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки:\nнеизменяемое'
         return self.parsing
@@ -161,7 +182,7 @@ class Morph:
 
 
     def prtf(self, parsing):#  причастие, работает
-        self.parsing = '1.часть речи:\nпричастие'
+        self.parsing = '1.часть речи:\nпричастие\nобщее грамматическое значение: означает признак предмета по действию'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки:'
         self.parsing += functions.isactv(parsing)
@@ -173,5 +194,5 @@ class Morph:
         if parsing.tag.case in self.signs:
             self.parsing += f'\n- {self.signs[parsing.tag.case]} падеж'
         self.parsing += f'\n- {self.signs[parsing.tag.number]}'
-        self.parsing += f'\n- {self.signs[parsing.tag.gender]}'
+        self.parsing += functions.gender(parsing)
         return self.parsing
