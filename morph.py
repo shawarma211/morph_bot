@@ -71,8 +71,10 @@ class Morph:
             return 'частица'
         elif parsing.tag.POS == 'INTJ':
             return 'междометие'
+        elif {'LATN'} in parsing.tag:
+            return 'введите слово на русском языке'
         else:
-            return 'такого не знаю'
+            return 'не могу разобрать это слово'
 
 
 
