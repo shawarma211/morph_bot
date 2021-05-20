@@ -101,28 +101,24 @@ def conjugation(word):#спряжение для глагола
 
 
 def discharges(word):#разряд местоимений
-    personal = ['я', 'мы', 'ты', 'вы', 'он', 'она', 'оно', 'они']
-    returnable= ['себя']
-    possessive=['мой', 'наш', 'твой', 'ваш', 'свой']
-    interrogative = ['кто', 'что', 'какой', 'каков', 'который', 'чей', 'сколько']
-    indicative = ['этот', 'тот', 'такой', 'таков', 'столько']
-    definitive = ['сам', 'самый', 'весь', 'вся', 'всё', 'все', 'всякий', 'каждый', 'любой', 'иной']
-    negative = ['никто', 'ничто', 'никакой', 'ничей', 'никоторый', 'некого', 'нечего']
-    undefined = ['некто', 'нечто', 'некоторый', 'некий', 'несколько', 'кто-то', 'что-то', 'сколько-нибудь', 'какой-либо', 'кое-что']
-    if word in personal:
+    discharges = {'personal':['я', 'мы', 'ты', 'вы', 'он', 'она', 'оно', 'они'], 'returnable':['себя'],'possessive':['мой', 'наш', 'твой', 'ваш', 'свой'],\
+        'interrogative':['кто', 'что', 'какой', 'каков', 'который', 'чей', 'сколько'],'indicative':['этот', 'тот', 'такой', 'таков', 'столько'],\
+        'definitive':['сам', 'самый', 'весь', 'вся', 'всё', 'все', 'всякий', 'каждый', 'любой', 'иной'], 'negative':['никто', 'ничто', 'никакой', 'ничей', 'никоторый', 'некого', 'нечего'],\
+        'undefined':['некто', 'нечто', 'некоторый', 'некий', 'несколько', 'кто-то', 'что-то', 'сколько-нибудь', 'какой-либо', 'кое-что']}
+    if word in discharges['personal']:
         return '\n- личное'
-    elif word in returnable:
+    elif word in discharges['returnable']:
         return '\n- возвратное'
-    elif word in possessive:
+    elif word in discharges['possessive']:
         return '\n- притяжательное'
-    elif word in interrogative:
+    elif word in discharges['interrogative']:
         return '\n- вопросительно-относительное'
-    elif word in indicative:
+    elif word in discharges['indicative']:
         return '\n- указательное'
-    elif word in definitive:
+    elif word in discharges['definitive']:
         return '\n- определительное'
-    elif word in negative:
+    elif word in discharges['negative']:
         return '\n- отрицательное'
-    elif word in undefined:
+    elif word in discharges['undefined']:
         return '\n- неопределенное'
     return ''
