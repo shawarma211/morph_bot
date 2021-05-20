@@ -79,7 +79,7 @@ class Morph:
 
 
     def noun(self, parsing): #существительное, работет
-        self.parsing = '1.часть речи:\nимя существительное\nобщее значение: предмет'
+        self.parsing = '1.часть речи:\nимя существительное\nобщее грамматическое значение:\nпредмет'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки: '
         self.parsing += functions.iscommon(parsing)
@@ -94,7 +94,7 @@ class Morph:
 
 
     def adjf(self, parsing):#прилагательное, работает
-        self.parsing = '1.часть речи:\nимя прилагательное\nобщее грамматическоен значение: признак предмета'
+        self.parsing = '1.часть речи:\nимя прилагательное\nобщее грамматическое значение:\nпризнак предмета'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки:'
         self.parsing += functions.isqual(parsing)
@@ -110,7 +110,7 @@ class Morph:
 
 
     def npro(self, parsing):
-        self.parsing = '1.часть речи:\nместоимение\nобщее грамматическое значение: указание на предмет, объект, признак или количество, не называя их'
+        self.parsing = '1.часть речи:\nместоимение\nобщее грамматическое значение:\nуказание на предмет, объект, признак или количество, не называя их'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки:'
         self.parsing += functions.discharges(parsing.normal_form)
@@ -126,7 +126,7 @@ class Morph:
 
 
     def verb(self, parsing):# глагол, работает
-        self.parsing = '1.часть речи:\nглагол\nобщее грамматическое значение: означает действие или состояние предмета'
+        self.parsing = '1.часть речи:\nглагол\nобщее грамматическое значение:\nозначает действие или состояние предмета'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки: '
         self.parsing += f'\n- {self.signs[parsing.tag.aspect]}'
@@ -145,7 +145,7 @@ class Morph:
 
 
     def infn(self, parsing): #   инфнитив, работает
-        self.parsing = '1.часть речи:\nглагол\nобщее грамматическое значение: означает действие или состояние предмета'
+        self.parsing = '1.часть речи:\nглагол\nобщее грамматическое значение:\nозначает действие или состояние предмета'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки: '
         self.parsing += f'\n- {self.signs[parsing.tag.aspect]}'
@@ -164,7 +164,7 @@ class Morph:
 
     
     def grnd(self, parsing): #   деепричастие, работает
-        self.parsing ='1.часть речи:\nдеепричастие\nобщее грамматическое значение: означает добавочное действие при основном действии, выраженном глаголом'
+        self.parsing ='1.часть речи:\nдеепричастие\nобщее грамматическое значение:\nозначает добавочное действие при основном действии, выраженном глаголом'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки: '
         self.parsing += f'\n- {self.signs[parsing.tag.aspect]}'
@@ -176,7 +176,7 @@ class Morph:
 
 
     def advb(self, parsing):#   наречие, работает
-        self.parsing = '\n1.часть речи:\nнаречие\nобщее грамматическое значение: означает признак действия предмета или другого признака'
+        self.parsing = '\n1.часть речи:\nнаречие\nобщее грамматическое значение:\nозначает признак действия предмета или другого признака'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки:\nнеизменяемое'
         return self.parsing
@@ -184,7 +184,7 @@ class Morph:
 
 
     def prtf(self, parsing):#  причастие, работает
-        self.parsing = '1.часть речи:\nпричастие\nобщее грамматическое значение: означает признак предмета по действию'
+        self.parsing = '1.часть речи:\nпричастие\nобщее грамматическое значение:\nозначает признак предмета по действию'
         self.parsing += f'\n\n2.начальная форма:\n{parsing.normal_form}'
         self.parsing += '\n\n3.постоянные признаки:'
         self.parsing += functions.isactv(parsing)
