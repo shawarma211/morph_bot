@@ -8,10 +8,24 @@ class Morph:
         self.word = word.lower()
         self.first_parsings = morph.parse(self.word.split()[0])
         self.parsing = None
-        self.signs = {'nomn': 'именительный', 'gent': 'родительный', 'datv': 'дательный', 'accs': 'винительный',\
-                 'ablt': 'творительный', 'loct': 'предложный', 'sing':'единственное число', 'plur':'множественное число', 'indc':'изъявительное наклонение',\
+        self.signs = {'nomn': 'именительный', 'gent': 'родительный', 'datv': 'дательный', 'accs': 'винительный', 'voct':'звательный', 'acc2':'второй винительный падеж', 'loc2':'второй предложный (местный) падеж',\
+                 'ablt': 'творительный', 'loct': 'предложный', 'gen1':'первый родительный падеж', 'gen2':'второй родительный (частичный) падеж','loc1':'первый предложный падеж',\
+                 'sing': 'единственное число', 'plur':'множественное число', 'indc':'изъявительное наклонение',\
                  'impr':'повелительное наклонение', 'perf':'совершенный вид', 'impf':'несовершенный вид', 'anim':'одушевлённое',\
                  'inan':'неодушевлённое', 'tran':'переходный', 'intr':'непереходый'}
+
+
+
+    def morph(self):
+        parsings = []
+        for parsing in self.first_parsings:
+            if parsing[3] >= 0.3:
+                parsings.append(self.parsingq(parsing)) 
+        if len(parsings) == 0:
+            parsings.append(self.parsingq(self.first_parsings[0]))
+        if len(parsings) > 1 and parsings[0] == parsings[1]:
+            parsings.remove(parsings[0]) 
+        return parsings 
 
 
     def template_parsings(self):
@@ -33,17 +47,6 @@ class Morph:
             return '1.часть речи\nдеепричастие\nобщее грамматическое значение: означает добавочное действие при основном действии, выраженном глаголом\n\n2.начальная форма:\nнеизменяемое\n\n3.постоянные признаки:\n- вид\n- переходность\n- возвратность\n\n4.синтаксическая роль'
         return self.morph()
 
-
-    def morph(self):
-        parsings = []
-        for parsing in self.first_parsings:
-            if parsing[3] >= 0.5:
-                parsings.append(self.parsingq(parsing)) 
-        if len(parsings) == 0:
-            parsings.append(self.parsingq(self.first_parsings[0]))
-        if len(parsings) > 1 and parsings[0] == parsings[1]:
-            parsings.remove(parsings[0]) 
-        return parsings 
 
 
     def parsingq(self, parsing): #выбираем какую часть речи разобрать
